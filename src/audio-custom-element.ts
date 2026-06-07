@@ -14,6 +14,14 @@ import './audio-custom-element.css'
 class AudioCustomElement extends HTMLElement {
   #PLAY_TEXT = 'Play';
   #PAUSE_TEXT = 'Pause';
+  #PLAY_SVG = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+      <path d="M8 5.14v13.72a1 1 0 0 0 1.5.86l10.86-6.86a1 1 0 0 0 0-1.72L9.5 4.28a1 1 0 0 0-1.5.86z"/>
+    </svg>`
+  #PAUSE_SVG = `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+  </svg>`
   declare audioEl: HTMLAudioElement | null;
   declare playBtn: HTMLButtonElement | null;
   declare progressBar: HTMLInputElement | null;
@@ -38,12 +46,14 @@ class AudioCustomElement extends HTMLElement {
 
     this.audioEl.addEventListener('play', () => {
       if(!this.playBtn) return;
-      this.playBtn.innerText = this.#PAUSE_TEXT;
+      this.playBtn.ariaLabel = this.#PAUSE_TEXT;
+      this.playBtn.innerHTML = this.#PAUSE_SVG;
     })
 
     this.audioEl.addEventListener('pause', () => {
       if(!this.playBtn) return;
-      this.playBtn.innerText = this.#PLAY_TEXT;
+      this.playBtn.ariaLabel = this.#PLAY_TEXT;
+      this.playBtn.innerHTML = this.#PLAY_SVG;
     })
 
     this.audioEl.addEventListener('timeupdate', () => {
@@ -52,11 +62,11 @@ class AudioCustomElement extends HTMLElement {
     })
     
     this.playBtn = document.createElement('button');
-    this.playBtn.innerText = this.#PLAY_TEXT
+    this.playBtn.ariaLabel = this.#PLAY_TEXT
+    this.playBtn.innerHTML = this.#PLAY_SVG;
     this.playBtn.addEventListener('click', () => {
       if(this.audioEl?.paused) {
         this.audioEl.play();
-        
       } else {
         this.audioEl?.pause();
       }
@@ -75,7 +85,6 @@ class AudioCustomElement extends HTMLElement {
 
     this.appendChild(this.playBtn)
     this.appendChild(this.progressBar)
-    this.appendChild(this)
   }
 }
 

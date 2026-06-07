@@ -8,13 +8,34 @@ figure:has(audio-custom-element) {
 }
 
 audio-custom-element {
+    position: relative;
     display: flex;
     gap: 8px;
-    border: 1px solid black;
-    border-radius: 8px;
     padding: 8px;
 
     input {
         flex-grow: 1;
+    }
+
+    button {
+        background: transparent;
+        border: none;
+        padding: 0;
+        display: flex;
+
+        & svg {
+            pointer-events: none;
+            filter: url(/src/pencil-filter.svg#PencilTexture);
+        }
+    }
+
+    &:after {
+        pointer-events: none;
+        position: absolute;
+        content: '';
+        inset: 0;
+        border: 2px solid hsl(0, 1%, 51%);
+        border-radius: 8px;
+        filter: url(/src/pencil-filter.svg#PencilTexture);
     }
 }
