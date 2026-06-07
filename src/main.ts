@@ -17,6 +17,11 @@ class AudioCustomElement extends HTMLElement {
       return;
     }
 
+    this.audioEl.addEventListener('loadedmetadata', () => {
+      if(!this.progressBar || !this.audioEl) return;
+      this.progressBar.max = Math.ceil(this.audioEl.duration).toString();
+    })
+
     this.audioEl.addEventListener('play', () => {
       if(!this.playBtn) return;
       this.playBtn.innerText = this.#PAUSE_TEXT;
@@ -29,8 +34,7 @@ class AudioCustomElement extends HTMLElement {
 
     this.audioEl.addEventListener('timeupdate', () => {
       if(!this.audioEl?.duration || !this.progressBar) return;
-      const percentage = (this.audioEl.currentTime / this.audioEl.duration) * 100
-      this.progressBar.value = percentage.toString();
+      this.progressBar.value = this.audioEl.currentTime.toString();
     })
 
     const customControls = document.createElement('div');
@@ -50,15 +54,11 @@ class AudioCustomElement extends HTMLElement {
     this.progressBar = document.createElement('input');
     this.progressBar.type = 'range'
     this.progressBar.min = '0'
-    this.progressBar.max = '100'
+    this.progressBar.max = Math.ceil(this.audioEl.duration).toString();
     this.progressBar.value = '0'
     this.progressBar.addEventListener('change', (event: Event) => {
-      if(!event.target 
-        || !(event.target instanceof HTMLInputElement) 
-        || !this.audioEl) return;
-      const progressPercent = Number(event.target.value) / 100;
-      const nextCurrentTime = this.audioEl.duration * progressPercent;
-      this.audioEl.currentTime = nextCurrentTime;
+      if(!(event.target instanceof HTMLInputElement) || !this.audioEl) return;
+      this.audioEl.currentTime = Number(event.target.value);
     })
 
     customControls.appendChild(this.playBtn)
