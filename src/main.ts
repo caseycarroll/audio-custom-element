@@ -1,60 +1,70 @@
-import './style.css'
-import typescriptLogo from './assets/typescript.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import { setupCounter } from './counter.ts'
+class AudioCustomElement extends HTMLElement {
+  #PLAY_TEXT = 'Play';
+  #PAUSE_TEXT = 'Pause';
+  declare audioEl: HTMLAudioElement | null;
+  declare playBtn: HTMLButtonElement | null;
+  declare progressBar: HTMLInputElement | null;
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${typescriptLogo}" class="framework" alt="TypeScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.ts</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+  constructor() {
+    super();
+    this.audioEl = null;
+  }
 
-<div class="ticks"></div>
+  connectedCallback() {
+    this.audioEl = this.querySelector('audio');
+    if(!this.audioEl) {
+      console.warn('AudioCustomElement: Mising child <audio> element.')
+      return;
+    }
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://www.typescriptlang.org" target="_blank">
-          <img class="button-icon" src="${typescriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+    this.audioEl.addEventListener('play', () => {
+      if(!this.playBtn) return;
+      this.playBtn.innerText = this.#PAUSE_TEXT;
+    })
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
+    this.audioEl.addEventListener('pause', () => {
+      if(!this.playBtn) return;
+      this.playBtn.innerText = this.#PLAY_TEXT;
+    })
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+    this.audioEl.addEventListener('timeupdate', () => {
+      if(!this.audioEl?.duration || !this.progressBar) return;
+      const percentage = (this.audioEl.currentTime / this.audioEl.duration) * 100
+      this.progressBar.value = percentage.toString();
+    })
+
+    const customControls = document.createElement('div');
+    
+    this.playBtn = document.createElement('button');
+    this.playBtn.innerText = this.#PLAY_TEXT
+    this.playBtn.addEventListener('click', () => {
+      if(this.audioEl?.paused) {
+        this.audioEl.play();
+        
+      } else {
+        this.audioEl?.pause();
+      }
+    })
+
+    
+    this.progressBar = document.createElement('input');
+    this.progressBar.type = 'range'
+    this.progressBar.min = '0'
+    this.progressBar.max = '100'
+    this.progressBar.value = '0'
+    this.progressBar.addEventListener('change', (event: Event) => {
+      if(!event.target 
+        || !(event.target instanceof HTMLInputElement) 
+        || !this.audioEl) return;
+      const progressPercent = Number(event.target.value) / 100;
+      const nextCurrentTime = this.audioEl.duration * progressPercent;
+      this.audioEl.currentTime = nextCurrentTime;
+    })
+
+    customControls.appendChild(this.playBtn)
+    customControls.appendChild(this.progressBar)
+    this.appendChild(customControls)
+  }
+}
+
+customElements.define('audio-custom-element', AudioCustomElement)
