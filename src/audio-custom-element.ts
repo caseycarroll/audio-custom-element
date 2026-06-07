@@ -1,3 +1,4 @@
+import './audio-custom-element.css'
 /**
  * TODO:
  * - Play and pause icon
@@ -28,6 +29,7 @@ class AudioCustomElement extends HTMLElement {
       console.warn('AudioCustomElement: Mising child <audio> element.')
       return;
     }
+    this.audioEl.style.display = 'none'
 
     this.audioEl.addEventListener('loadedmetadata', () => {
       if(!this.progressBar || !this.audioEl) return;
@@ -48,8 +50,6 @@ class AudioCustomElement extends HTMLElement {
       if(!this.audioEl?.duration || !this.progressBar) return;
       this.progressBar.value = this.audioEl.currentTime.toString();
     })
-
-    const customControls = document.createElement('div');
     
     this.playBtn = document.createElement('button');
     this.playBtn.innerText = this.#PLAY_TEXT
@@ -73,9 +73,9 @@ class AudioCustomElement extends HTMLElement {
       this.audioEl.currentTime = Number(event.target.value);
     })
 
-    customControls.appendChild(this.playBtn)
-    customControls.appendChild(this.progressBar)
-    this.appendChild(customControls)
+    this.appendChild(this.playBtn)
+    this.appendChild(this.progressBar)
+    this.appendChild(this)
   }
 }
 

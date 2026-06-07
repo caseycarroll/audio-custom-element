@@ -1,0 +1,20 @@
+figure:has(audio-custom-element) {
+    margin: 0;
+
+    figcaption {
+        margin-block-end: 8px;
+        text-align: center;
+    }
+}
+
+audio-custom-element {
+    display: flex;
+    gap: 8px;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 8px;
+
+    input {
+        flex-grow: 1;
+    }
+}
