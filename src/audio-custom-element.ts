@@ -78,6 +78,7 @@ class AudioCustomElement extends HTMLElement {
     this.progressBar.min = '0'
     this.progressBar.max = Math.ceil(this.audioEl.duration).toString();
     this.progressBar.value = '0'
+    this.progressBar.step = 'any'
     this.progressBar.addEventListener('change', (event: Event) => {
       if(!(event.target instanceof HTMLInputElement) || !this.audioEl) return;
       this.audioEl.currentTime = Number(event.target.value);
