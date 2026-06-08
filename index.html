@@ -15,7 +15,7 @@
       }
     </style>
   </head>
-  <body ontouchstart="">
+  <body>
     <script type="module" src="/src/main.ts"></script>
     <div class="grid">
       <figure>
@@ -47,7 +47,7 @@
       </feComposite>
       <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="3" result="noise">
       </feTurbulence>
-      <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="2.5" in="f3" result="f4">
+      <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="1" in="f3" result="f4">
       </feDisplacementMap>
     </filter>
 </svg>
