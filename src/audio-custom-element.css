@@ -30,6 +30,9 @@ audio-custom-element {
     }
 
     input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        background: transparent;
         flex-grow: 1;
         min-width: 0;
         filter: url(/src/pencil-filter.svg#PencilTexture);
@@ -38,6 +41,7 @@ audio-custom-element {
         }
         &::-webkit-slider-runnable-track {
             background: var(--primary-foreground);
+            height: 2px;
         }
         &::-moz-range-thumb {
             background-color: var(--primary-foreground);
@@ -45,9 +49,13 @@ audio-custom-element {
             height: 8px;
         }
         &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
             background-color: var(--primary-foreground);
             width: 8px;
             height: 8px;
+            border-radius: 50%;
+            margin-top: -3px;
         }
     }
 
