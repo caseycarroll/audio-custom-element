@@ -17,7 +17,7 @@ audio-custom-element {
     padding: 8px;
     padding-inline-end: 16px;
 
-    --primary-foreground: hsl(14, 11%, 23%);
+    --primary-foreground: hsl(11, 11%, 20%);
 
     &:after {
         pointer-events: none;
