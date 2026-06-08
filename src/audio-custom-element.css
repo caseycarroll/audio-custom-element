@@ -1,5 +1,8 @@
 figure:has(audio-custom-element) {
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     figcaption {
         margin-block-end: 8px;
@@ -10,11 +13,42 @@ figure:has(audio-custom-element) {
 audio-custom-element {
     position: relative;
     display: flex;
-    gap: 8px;
+    gap: 6px;
     padding: 8px;
+    padding-inline-end: 16px;
 
-    input {
+    --primary-foreground: hsl(14, 11%, 23%);
+
+    &:after {
+        pointer-events: none;
+        position: absolute;
+        content: '';
+        inset: 0;
+        border: 2px solid var(--primary-foreground);
+        border-radius: 6px;
+        filter: url(/src/pencil-filter.svg#PencilTexture);
+    }
+
+    input[type="range"] {
         flex-grow: 1;
+        min-width: 0;
+        filter: url(/src/pencil-filter.svg#PencilTexture);
+        &::-moz-range-track {
+            background: var(--primary-foreground);
+        }
+        &::-webkit-slider-runnable-track {
+            background: var(--primary-foreground);
+        }
+        &::-moz-range-thumb {
+            background-color: var(--primary-foreground);
+            width: 8px;
+            height: 8px;
+        }
+        &::-webkit-slider-thumb {
+            background-color: var(--primary-foreground);
+            width: 8px;
+            height: 8px;
+        }
     }
 
     button {
@@ -22,20 +56,22 @@ audio-custom-element {
         border: none;
         padding: 0;
         display: flex;
+        cursor: pointer;
+        color: var(--primary-foreground);
+        transition: transform 150ms cubic-bezier(0.176, 1.084, 0.894, 0.997);
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        &:active {
+            transform: scale(0.98);
+            opacity: 80%;
+        }
 
         & svg {
             pointer-events: none;
             filter: url(/src/pencil-filter.svg#PencilTexture);
         }
-    }
-
-    &:after {
-        pointer-events: none;
-        position: absolute;
-        content: '';
-        inset: 0;
-        border: 2px solid hsl(0, 1%, 51%);
-        border-radius: 8px;
-        filter: url(/src/pencil-filter.svg#PencilTexture);
     }
 }

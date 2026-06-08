@@ -5,14 +5,37 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>audio-custom-element</title>
+    <style>
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 16px;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+    </style>
   </head>
   <body>
     <script type="module" src="/src/main.ts"></script>
-    <figure>
-      <figcaption>Pokemon Victory Song</figcaption>
-      <audio-custom-element>
-        <audio controls src="/victory.mp3"></audio>
-      </audio-custom-element>
-    </figure>
+    <div class="grid">
+      <figure>
+        <figcaption>Pokemon Victory Song</figcaption>
+        <audio-custom-element>
+          <audio controls src="/victory.mp3"></audio>
+        </audio-custom-element>
+      </figure>
+      <figure>
+        <figcaption>Pokemon Trainer Song</figcaption>
+        <audio-custom-element>
+          <audio controls src="/pokemon-trainer.mp3"></audio>
+        </audio-custom-element>
+      </figure>
+      <figure>
+        <figcaption>Pokemon Ruins Song</figcaption>
+        <audio-custom-element>
+          <audio controls src="/ruins.mp3"></audio>
+        </audio-custom-element>
+      </figure>
+    </div>
   </body>
 </html>
