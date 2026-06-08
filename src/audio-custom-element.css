@@ -26,7 +26,7 @@ audio-custom-element {
         inset: 0;
         border: 2px solid var(--primary-foreground);
         border-radius: 6px;
-        filter: url(/src/pencil-filter.svg#PencilTexture);
+        filter: url(#PencilTexture);
     }
 
     input[type="range"] {
@@ -35,7 +35,7 @@ audio-custom-element {
         background: transparent;
         flex-grow: 1;
         min-width: 0;
-        filter: url(/src/pencil-filter.svg#PencilTexture);
+        filter: url(#PencilTexture);
         &::-moz-range-track {
             background: var(--primary-foreground);
         }
@@ -79,7 +79,7 @@ audio-custom-element {
 
         & svg {
             pointer-events: none;
-            filter: url(/src/pencil-filter.svg#PencilTexture);
+            filter: url(#PencilTexture);
         }
     }
 }
